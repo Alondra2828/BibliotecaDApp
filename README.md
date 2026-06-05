@@ -104,6 +104,6 @@ Dirección del contrato:
 
 Alondra Isabel González Martínez
 
-Instituto Tecnológico Superior de Xalapa
+Instituto Tecnológico de Veracruz
 
-Proyecto académico desarrollado para la materia de Blockchain.
+Proyecto académico desarrollado para la materia de Blockchain en Transacciones Computacionales.
