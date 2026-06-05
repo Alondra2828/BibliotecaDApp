@@ -1,0 +1,433 @@
+<div class="contenedor">
+
+ <h1 class="titulo-principal">
+  📚 Sistema de Gestión Bibliotecaria Blockchain
+</h1>
+
+<p class="subtitulo">
+  Control seguro de préstamos y devoluciones mediante Ethereum Sepolia y Firebase
+</p>
+
+  <!-- WALLET -->
+  <div class="seccion">
+
+    <h2>🔗 Conexión Wallet</h2>
+
+    <button (click)="conectar()">
+      Conectar MetaMask
+    </button>
+
+    <br><br>
+
+    <div *ngIf="wallet" class="wallet">
+
+      <b>Wallet conectada:</b>
+
+      <br><br>
+
+      {{ wallet }}
+
+    </div>
+
+  </div>
+
+  <!-- FILA 1 -->
+  <div class="fila">
+
+    <div class="seccion">
+
+      <h2>👨‍🎓 Gestión de Alumnos</h2>
+
+      <label>Número de Control</label>
+      <br>
+      <input [(ngModel)]="numControl">
+
+      <br><br>
+
+      <label>Nombre</label>
+      <br>
+      <input [(ngModel)]="nombreAlumno">
+
+      <br><br>
+
+      <label>Carrera</label>
+      <br>
+      <input [(ngModel)]="carreraAlumno">
+
+      <br><br>
+
+      <label>Correo</label>
+      <br>
+      <input [(ngModel)]="correoAlumno">
+
+      <br><br>
+
+      <label>Wallet</label>
+      <br>
+      <input [(ngModel)]="walletAlumno">
+
+      <br><br>
+
+      <button (click)="guardarAlumno()">
+        Guardar Alumno
+      </button>
+
+    </div>
+
+    <div class="seccion">
+
+      <h2>📚 Registro de Libros</h2>
+
+      <label>ISBN</label>
+      <br>
+      <input [(ngModel)]="isbn">
+
+      <br><br>
+
+      <label>Título</label>
+      <br>
+      <input [(ngModel)]="titulo">
+
+      <br><br>
+
+      <label>Autor</label>
+      <br>
+      <input [(ngModel)]="autor">
+
+      <br><br>
+
+      <button (click)="guardarLibro()">
+        Guardar Libro
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- FILA 2 -->
+  <div class="fila">
+
+    <div class="seccion">
+
+      <h2>🔍 Buscar Libro</h2>
+
+      <label>
+        ISBN, Título o Autor
+      </label>
+
+      <br>
+
+      <input [(ngModel)]="textoBusqueda">
+
+      <button (click)="buscarLibroTexto()">
+        Buscar
+      </button>
+
+      <br><br>
+
+      <div
+        *ngFor="let libro of resultadosBusqueda"
+        class="resultado">
+
+        <b>ID:</b>
+        {{ libro.idBlockchain }}
+
+        <br><br>
+
+        <b>ISBN:</b>
+        {{ libro.isbn }}
+
+        <br><br>
+
+        <b>Título:</b>
+        {{ libro.titulo }}
+
+        <br><br>
+
+        <b>Autor:</b>
+        {{ libro.autor }}
+
+        <br><br>
+
+        <button
+          (click)="idPrestamo = libro.idBlockchain">
+
+          Seleccionar
+
+        </button>
+
+        <hr>
+
+      </div>
+
+    </div>
+
+    <div class="seccion">
+
+      <h2>📖 Préstamos</h2>
+
+      <label>
+        ID del Libro
+      </label>
+
+      <br>
+
+      <input
+        type="number"
+        [(ngModel)]="idPrestamo">
+
+      <br><br>
+
+      <label>
+        Número de Control
+      </label>
+
+      <br>
+
+      <input
+        [(ngModel)]="numControlPrestamo">
+
+      <br><br>
+
+      <button
+        (click)="prestarLibro()">
+
+        Registrar Préstamo
+
+      </button>
+
+    </div>
+
+  </div>
+
+<!-- CONSULTA ALUMNO -->
+<div class="fila-consulta">
+
+  <div class="seccion consulta-alumno">
+
+    <h2>
+      🔎 Consulta de Alumno
+    </h2>
+
+    <label>
+      Número de Control
+    </label>
+
+    <br>
+
+    <input
+      [(ngModel)]="numControlConsulta">
+
+    <br><br>
+
+    <button
+      (click)="consultarAlumno()">
+
+      Buscar Alumno
+
+    </button>
+
+    <br><br>
+
+    <div *ngIf="alumnoConsultado">
+
+      <h3>
+        Información del Alumno
+      </h3>
+
+      <p>
+        <b>Nombre:</b>
+        {{ alumnoConsultado.nombre }}
+      </p>
+
+      <p>
+        <b>Carrera:</b>
+        {{ alumnoConsultado.carrera }}
+      </p>
+
+      <p>
+        <b>Correo:</b>
+        {{ alumnoConsultado.correo }}
+      </p>
+
+      <p>
+        <b>Wallet:</b>
+        {{ alumnoConsultado.wallet }}
+      </p>
+
+      <hr>
+
+      <h3>
+        📚 Libros Prestados Actualmente
+      </h3>
+
+      <table
+        *ngIf="librosPrestadosAlumno.length > 0">
+
+        <tr>
+
+          <th>Libro</th>
+
+          <th>Autor</th>
+
+          <th>Préstamo</th>
+
+          <th>Límite</th>
+
+        </tr>
+
+        <tr
+          *ngFor="
+          let libro
+          of librosPrestadosAlumno">
+
+          <td>
+            {{ libro.titulo }}
+          </td>
+
+          <td>
+            {{ libro.autor }}
+          </td>
+
+          <td>
+            {{ libro.fechaPrestamo }}
+          </td>
+
+          <td>
+            {{ libro.fechaLimite }}
+          </td>
+
+        </tr>
+
+      </table>
+
+      <p
+        *ngIf="
+        librosPrestadosAlumno.length === 0">
+
+        Este alumno no tiene libros prestados actualmente.
+
+      </p>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- FILA 4 -->
+<div class="fila">
+
+  <div class="seccion devoluciones">
+
+    <h2>
+      ↩️ Devoluciones
+    </h2>
+
+    <label>
+      ID del Libro
+    </label>
+
+    <br>
+
+    <input
+      type="number"
+      [(ngModel)]="idDevolucion">
+
+    <br><br>
+
+    <button
+      (click)="devolverLibro()">
+
+      Registrar Devolución
+
+    </button>
+
+  </div>
+
+  <div class="seccion historial">
+
+    <h2>
+      📋 Historial de Préstamos
+    </h2>
+
+    <div class="filtros-historial">
+
+      <button
+        (click)="cargarHistorial()">
+
+        Actualizar Historial
+
+      </button>
+
+      <button
+        (click)="filtrarHoy()">
+
+        Hoy
+
+      </button>
+
+      <button
+        (click)="filtrarSemana()">
+
+        Semana
+
+      </button>
+
+      <button
+        (click)="filtrarMes()">
+
+        Mes
+
+      </button>
+
+      <button
+        (click)="mostrarTodo()">
+
+        Todo
+
+      </button>
+
+    </div>
+
+    <br><br>
+
+    <div class="tabla-container">
+
+      <table
+        *ngIf="historialPrestamos.length > 0">
+
+        <tr>
+
+          <th>Libro</th>
+          <th>Autor</th>
+          <th>Alumno</th>
+          <th>Wallet</th>
+          <th>Préstamo</th>
+          <th>Límite</th>
+          <th>Devuelto el</th>
+          <th>Estado</th>
+
+        </tr>
+
+        <tr
+          *ngFor="let p of historialPrestamos">
+
+          <td>{{ p.titulo }}</td>
+          <td>{{ p.autor }}</td>
+          <td>{{ p.nombreAlumno }}</td>
+          <td>{{ p.wallet }}</td>
+          <td>{{ p.fechaPrestamo }}</td>
+          <td>{{ p.fechaLimite }}</td>
+          <td>{{ p.fechaDevolucionReal }}</td>
+          <td>{{ p.estado }}</td>
+
+        </tr>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</div>

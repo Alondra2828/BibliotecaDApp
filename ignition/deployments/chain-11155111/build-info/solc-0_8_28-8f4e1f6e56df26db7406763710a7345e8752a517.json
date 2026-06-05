@@ -1,0 +1,49 @@
+{
+  "_format": "hh3-sol-build-info-1",
+  "id": "solc-0_8_28-8f4e1f6e56df26db7406763710a7345e8752a517",
+  "solcVersion": "0.8.28",
+  "solcLongVersion": "0.8.28+commit.7893614a",
+  "compilerType": "solc",
+  "toolVersions": {
+    "hardhat": "3.7.0"
+  },
+  "userSourceNameMap": {
+    "contracts/Biblioteca.sol": "project/contracts/Biblioteca.sol"
+  },
+  "input": {
+    "language": "Solidity",
+    "settings": {
+      "evmVersion": "cancun",
+      "optimizer": {
+        "enabled": true,
+        "runs": 200
+      },
+      "outputSelection": {
+        "*": {
+          "": [
+            "ast"
+          ],
+          "*": [
+            "abi",
+            "evm.bytecode.linkReferences",
+            "evm.bytecode.object",
+            "evm.bytecode.opcodes",
+            "evm.bytecode.sourceMap",
+            "evm.deployedBytecode.immutableReferences",
+            "evm.deployedBytecode.linkReferences",
+            "evm.deployedBytecode.object",
+            "evm.deployedBytecode.opcodes",
+            "evm.deployedBytecode.sourceMap",
+            "evm.methodIdentifiers"
+          ]
+        }
+      },
+      "remappings": []
+    },
+    "sources": {
+      "project/contracts/Biblioteca.sol": {
+        "content": "// SPDX-License-Identifier: MIT\r\npragma solidity ^0.8.28;\r\n\r\ncontract Biblioteca {\r\n\r\n    address public bibliotecario;\r\n\r\n    constructor() {\r\n        bibliotecario = msg.sender;\r\n    }\r\n\r\nstruct Libro {\r\n    uint id;\r\n    string isbn;\r\n    string titulo;\r\n    string autor;\r\n    bool disponible;\r\n    address prestatario;\r\n}\r\n\r\n    uint public totalLibros;\r\n\r\n    function obtenerTotalLibros()\r\npublic\r\nview\r\nreturns(uint)\r\n{\r\n    return totalLibros;\r\n}\r\n\r\n    mapping(uint => Libro) public libros;\r\n\r\n    event LibroAgregado(\r\n        uint id,\r\n        string titulo\r\n    );\r\n\r\n event LibroPrestado(\r\n    uint id,\r\n    address estudiante,\r\n    uint fechaPrestamo\r\n);\r\n\r\nevent LibroDevuelto(\r\n    uint id,\r\n    uint fechaDevolucion\r\n);\r\n\r\n    modifier soloBibliotecario() {\r\n        require(\r\n            msg.sender == bibliotecario,\r\n            \"No autorizado\"\r\n        );\r\n        _;\r\n    }\r\n\r\nfunction agregarLibro(\r\n    string memory isbn,\r\n    string memory titulo,\r\n    string memory autor\r\n) \r\n\r\npublic soloBibliotecario {\r\n\r\n        totalLibros++;\r\n\r\nlibros[totalLibros] = Libro(\r\n    totalLibros,\r\n    isbn,\r\n    titulo,\r\n    autor,\r\n    true,\r\n    address(0)\r\n);\r\n\r\n        emit LibroAgregado(\r\n            totalLibros,\r\n            titulo\r\n        );\r\n    }\r\n\r\n    function prestarLibro(\r\n        uint id,\r\n        address estudiante\r\n    ) public soloBibliotecario {\r\n\r\n        require(\r\n            libros[id].disponible,\r\n            \"Libro no disponible\"\r\n        );\r\n\r\n        libros[id].disponible = false;\r\n        libros[id].prestatario = estudiante;\r\n\r\n        emit LibroPrestado(\r\n    id,\r\n    estudiante,\r\n    block.timestamp\r\n);\r\n    }\r\n\r\n    function devolverLibro(\r\n        uint id\r\n    ) public soloBibliotecario {\r\n\r\n        require(\r\n            !libros[id].disponible,\r\n            \"Libro ya disponible\"\r\n        );\r\n\r\n        libros[id].disponible = true;\r\n        libros[id].prestatario = address(0);\r\n\r\n      emit LibroDevuelto(\r\n    id,\r\n    block.timestamp\r\n);\r\n    }\r\n\r\n    function consultarLibro(\r\n        uint id\r\n    )\r\n        public\r\n        view\r\nreturns(\r\n    uint,\r\n    string memory,\r\n    string memory,\r\n    string memory,\r\n    bool,\r\n    address\r\n)\r\n    {\r\n        Libro memory l = libros[id];\r\n\r\nreturn (\r\n    l.id,\r\n    l.isbn,\r\n    l.titulo,\r\n    l.autor,\r\n    l.disponible,\r\n    l.prestatario\r\n);\r\n    }\r\n}"
+      }
+    }
+  }
+}

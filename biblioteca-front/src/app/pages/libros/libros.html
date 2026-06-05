@@ -1,0 +1,96 @@
+<h1>
+Gestión de Libros
+</h1>
+
+<hr>
+
+<label>
+ISBN
+</label>
+
+<br>
+
+<input
+[(ngModel)]="isbn">
+
+<br><br>
+
+<label>
+Título
+</label>
+
+<br>
+
+<input [(ngModel)]="titulo">
+
+<br><br>
+
+<label>
+Autor
+</label>
+
+<br>
+
+<input [(ngModel)]="autor">
+
+<br><br>
+
+<button (click)="guardar()">
+Guardar Libro
+</button>
+
+<hr>
+
+<h2>
+Consultar Libro
+</h2>
+
+<label>
+ID del Libro
+</label>
+
+<br>
+
+<input
+type="number"
+[(ngModel)]="idBusqueda">
+
+<button
+(click)="consultar()">
+Buscar
+</button>
+
+<br><br>
+
+<div *ngIf="resultado">
+
+  <b>ID:</b>
+  {{ resultado[0] }}
+
+  <br><br>
+
+  <b>Título:</b>
+  {{ resultado[1] }}
+
+  <br><br>
+
+  <b>Autor:</b>
+  {{ resultado[2] }}
+
+  <br><br>
+
+  <b>Disponible:</b>
+  {{ resultado[3] ? 'Sí' : 'No' }}
+
+  <br><br>
+
+  <b>Prestatario:</b>
+  {{ resultado[4] }}
+
+</div>
+
+<br><br>
+
+<a routerLink="/">
+Volver
+</a>

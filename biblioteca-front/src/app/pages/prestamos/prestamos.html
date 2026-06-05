@@ -1,0 +1,39 @@
+<h1>
+Préstamo de Libros
+</h1>
+
+<hr>
+
+<label>
+ID del Libro
+</label>
+
+<br>
+
+<input
+type="number"
+[(ngModel)]="idPrestamo">
+
+<br><br>
+
+<label>
+Número de Control
+</label>
+
+<input
+[(ngModel)]="numControlPrestamo">
+
+<br><br>
+
+<button
+(click)="prestar()">
+
+Registrar Préstamo
+
+</button>
+
+<br><br>
+
+<a routerLink="/">
+Volver
+</a>
