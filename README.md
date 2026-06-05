@@ -1,57 +1,109 @@
-# Sample Hardhat 3 Project (`mocha` and `ethers`)
+# BibliotecaDApp
 
-This project showcases a Hardhat 3 project using `mocha` for tests and the `ethers` library for Ethereum interactions.
+Sistema de Gestión Bibliotecaria basado en Blockchain desarrollado con Angular, Firebase y Ethereum Sepolia.
 
-To learn more about Hardhat 3, please visit the [Getting Started guide](https://hardhat.org/docs/getting-started#getting-started-with-hardhat-3). To share your feedback, join our [Hardhat 3](https://hardhat.org/hardhat3-telegram-group) Telegram group or [open an issue](https://github.com/NomicFoundation/hardhat/issues/new) in our GitHub issue tracker.
+## Descripción
 
-## Project Overview
+BibliotecaDApp es una aplicación web que permite administrar libros, alumnos, préstamos y devoluciones utilizando un contrato inteligente desplegado en la red Ethereum Sepolia.
 
-This example project includes:
+El sistema combina Blockchain y Firebase para aprovechar las ventajas de ambas tecnologías:
 
-- A simple Hardhat configuration file.
-- Foundry-compatible Solidity unit tests.
-- TypeScript integration tests using `mocha` and ethers.js
-- Examples demonstrating how to connect to different types of networks, including locally simulating OP mainnet.
+* Blockchain garantiza la integridad y trazabilidad de los préstamos y devoluciones.
+* Firebase almacena información administrativa y permite consultas rápidas.
 
-## Usage
+## Tecnologías utilizadas
 
-### Running Tests
+* Angular
+* TypeScript
+* Firebase Firestore
+* Solidity
+* Hardhat
+* Ethers.js
+* Ethereum Sepolia
+* MetaMask
 
-To run all the tests in the project, execute the following command:
+## Funcionalidades
 
-```shell
-npx hardhat test
-```
+### Gestión de alumnos
 
-You can also selectively run the Solidity or `mocha` tests:
+* Registro de alumnos.
+* Asociación de wallet Ethereum.
+* Consulta de información del alumno.
 
-```shell
-npx hardhat test solidity
-npx hardhat test mocha
-```
+### Gestión de libros
 
-### Make a deployment to Sepolia
+* Registro de libros.
+* Búsqueda por ISBN, título o autor.
 
-This project includes an example Ignition module to deploy the contract. You can deploy this module to a locally simulated chain or to Sepolia.
+### Préstamos
 
-To run the deployment to a local chain:
+* Registro de préstamos.
+* Asociación del libro con la wallet del alumno.
+* Registro del evento en Blockchain.
 
-```shell
-npx hardhat ignition deploy ignition/modules/Counter.ts
-```
+### Devoluciones
 
-To run the deployment to Sepolia, you need an account with funds to send the transaction. The provided Hardhat configuration includes a Configuration Variable called `SEPOLIA_PRIVATE_KEY`, which you can use to set the private key of the account you want to use.
+* Registro de devoluciones.
+* Actualización del estado del libro.
+* Registro del evento en Blockchain.
 
-You can set the `SEPOLIA_PRIVATE_KEY` variable using the `hardhat-keystore` plugin or by setting it as an environment variable.
+### Historial
 
-To set the `SEPOLIA_PRIVATE_KEY` config variable using `hardhat-keystore`:
+* Consulta de préstamos.
+* Filtros por día, semana y mes.
+* Consulta de libros prestados por alumno.
 
-```shell
-npx hardhat keystore set SEPOLIA_PRIVATE_KEY
-```
+## Arquitectura
 
-After setting the variable, you can run the deployment with the Sepolia network:
+### Blockchain (Ethereum Sepolia)
 
-```shell
-npx hardhat ignition deploy --network sepolia ignition/modules/Counter.ts
-```
+Almacena:
+
+* ID del libro.
+* ISBN.
+* Título.
+* Autor.
+* Disponibilidad.
+* Wallet del prestatario.
+* Eventos de préstamo.
+* Eventos de devolución.
+
+### Firebase Firestore
+
+Almacena:
+
+#### Colección alumnos
+
+* Número de control.
+* Nombre.
+* Carrera.
+* Correo.
+* Wallet.
+
+#### Colección libros
+
+* Información bibliográfica.
+
+#### Colección prestamos
+
+* Libro prestado.
+* Alumno.
+* Fechas.
+* Estado.
+* Historial administrativo.
+
+## Contrato Inteligente
+
+Red: Ethereum Sepolia
+
+Dirección del contrato:
+
+0xea8411802A1Dae906f903D0338CCd6d8FE54a9e1
+
+## Autor
+
+Alondra Isabel González Martínez
+
+Instituto Tecnológico Superior de Xalapa
+
+Proyecto académico desarrollado para la materia de Blockchain.
